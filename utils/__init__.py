@@ -1,3 +1,4 @@
+import json
 import os
 import pathlib
 import platform
@@ -43,9 +44,37 @@ def extract_textures(jar_file):
                 # we truncate assets/minecraft/textures as
                 # we dont need these folders
                 info.filename = info.filename[26:]
-                z.extract(info, f'../textures')
+                z.extract(info, 'textures')
+
+
+def extract_block_models(jar_file):
+    with ZipFile(jar_file) as z:
+        for info in z.infolist():
+            if r'assets/minecraft/models' in info.filename:
+                info.filename = info.filename[23:]
+                z.extract(info, 'models')
+
+
+def load_json(fp):
+    path = os.path.abspath(fp)
+    if not path.endswith('.json'):
+        path += '.json'
+    with open(path, 'r') as f:
+        return json.load(f)
+
+
+def get_odd_even(lst):
+    odd = []
+    even = []
+    for idx, item in enumerate(lst):
+        if idx % 2 == 0:
+            even.append(item)
+        else:
+            odd.append(item)
+    return even, odd
 
 
 if __name__ == '__main__':
     file = get_latest_jar()
     extract_textures(file)
+    extract_block_models(file)
