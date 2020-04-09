@@ -2,6 +2,7 @@ import logging
 import os
 import pathlib
 import sys
+from functools import lru_cache
 from typing import Union
 
 import pyglet
@@ -10,7 +11,7 @@ from nbt import nbt
 from Parser import StructureParser
 from utils import get_latest_jar, extract_textures
 
-ERROR_IMG = pathlib.Path(__file__).parent.parent / 'error.png'
+ERROR_IMG = pathlib.Path(__file__).parent.parent / 'textures/static/error.png'
 LOGGER = logging.getLogger(__name__)
 
 stdout = logging.StreamHandler(sys.stdout)
@@ -26,8 +27,8 @@ class Structure:
     TextureCoords = ('t2f', (0, 0, 1, 0, 1, 1, 0, 1))
 
     @staticmethod
-    def load_texture(name: str) -> pyglet.graphics.TextureGroup:
-        """
+    @lru_cache(32)
+    def load_texture(fp: Union[str, pathlib.Path]) -> pyglet.graphics.TextureGroup:
 
         :param str name: Name of the texture (minecraft:name)
         :return: `pyglet.graphics.TextureGroup`
