@@ -68,9 +68,9 @@ class Chest(TextureGetter):
                 top.save(fp_top)
 
         sides_keys = ['east', 'south', 'north', 'west']
-        sides_texture = (sides_keys, fp_sides)
+        sides_texture = (sides_keys, f'static/{Chest.name}_sides.png')
         top_keys = ['up', 'down']
-        top_texture = (top_keys, fp_top)
+        top_texture = (top_keys, f'static/{Chest.name}_top.png')
 
         textures = {}
         for keys, fp in [sides_texture, top_texture]:
