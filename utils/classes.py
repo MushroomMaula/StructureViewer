@@ -109,11 +109,15 @@ class Model:
 @dataclass
 class Block(Vec3):
     state: int
-    texture: Texture = None
+    model: Model = None
+    renderer = ElementRenderer()
 
     @property
     def pos(self) -> Tuple[float, float, float]:
         return self.x, self.y, self.z
+
+    def get_faces(self):
+        return self.renderer(self)
 
     @classmethod
     def from_nbt(cls, data):
