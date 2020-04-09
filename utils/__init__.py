@@ -44,7 +44,7 @@ def extract_textures(jar_file):
                 # we truncate assets/minecraft/textures as
                 # we dont need these folders
                 info.filename = info.filename[26:]
-                z.extract(info, f'../textures')
+                z.extract(info, 'textures')
 
 
 def extract_block_models(jar_file):
@@ -52,7 +52,7 @@ def extract_block_models(jar_file):
         for info in z.infolist():
             if r'assets/minecraft/models' in info.filename:
                 info.filename = info.filename[23:]
-                z.extract(info, f'../models')
+                z.extract(info, 'models')
 
 
 def load_json(fp):

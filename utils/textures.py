@@ -4,7 +4,7 @@ from typing import Tuple, Union, Dict, Callable
 
 from PIL import Image
 
-SAVE_DIR = '../textures/static'
+SAVE_DIR = 'textures/static'
 
 
 class MultiTextureFile:
@@ -48,11 +48,11 @@ class Chest(TextureGetter):
 
     @staticmethod
     def get_textures():
-        fp_sides = SAVE_DIR + f'{Chest.name}_sides.png'
-        fp_top = SAVE_DIR + f'{Chest.name}_top.png'
+        fp_sides = SAVE_DIR + f'/{Chest.name}_sides.png'
+        fp_top = SAVE_DIR + f'/{Chest.name}_top.png'
         # create files if they dont exist
         if not os.path.exists(fp_sides) or not os.path.exists(fp_top):
-            img = MultiTextureFile(r'../textures/entity/chest/normal.png')
+            img = MultiTextureFile(r'textures/entity/chest/normal.png')
 
             if not os.path.exists(fp_sides):
                 sides = img.create_part(
