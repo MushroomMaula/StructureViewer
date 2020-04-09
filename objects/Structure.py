@@ -62,27 +62,12 @@ class Structure:
             self.add_block_vertices(block)
 
     def add_block_vertices(self, block: Block):
-        x, y, z = block.pos
-        texture = Structure.load_texture(block.texture.name)
-
-        ##### coordinates of the block faces #####
-        # remember z-axis in OpenGL is the y-axis in normal 3D coordinate system
-
-        # coordinates start in the corner furthest away
-        left = (x, y, z, x, y, z+1, x, y+1, z+1, x, y+1, z)
-        right = (x+1, y, z, x+1, y, z+1, x+1, y+1, z+1, x+1, y+1, z)
-        # coordinates start in the bottom left corner
-        back = (x, y, z, x+1, y, z, x+1, y+1, z, x, y+1, z)
-        front = (x, y, z+1, x+1, y, z+1, x+1, y+1, z+1, x, y+1, z+1)
-        # coordinates start in the back left corner
-        bottom = (x, y, z, x+1, y, z, x+1, y, z+1, x, y, z+1)
-        top = (x, y+1, z, x+1, y+1, z, x+1, y+1, z+1, x, y+1, z+1)
-
-        sides = [left, right, back, front, bottom, top]
-        for coordinates in sides:
+        for texture, vertices in block.get_faces():
+            image = self.load_texture(texture)
             self.batch.add(
-                4, Structure.Block, texture,
-                ('v3f', coordinates),
+                4, Structure.Block,
+                image,
+                ('v3f', vertices),
                 Structure.TextureCoords
             )
 
