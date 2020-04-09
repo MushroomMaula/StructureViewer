@@ -30,20 +30,16 @@ class Structure:
     @lru_cache(32)
     def load_texture(fp: Union[str, pathlib.Path]) -> pyglet.graphics.TextureGroup:
 
-        :param str name: Name of the texture (minecraft:name)
-        :return: `pyglet.graphics.TextureGroup`
-        """
-        if not os.path.isdir('../textures'):
+        if not os.path.isdir('textures'):
             jar = get_latest_jar()
             extract_textures(jar)
-        name = name.split(':')[1]
-        # TODO: add support for stairs and other 3D models
-        if 'stair' in name:
-            name = f'{name.split("_")[0]}_planks'
+
         try:
-            image = pyglet.image.load(f'../textures/block/{name}.png')
+            if not fp.endswith('.png'):
+                fp = f'{fp}.png'
+            image = pyglet.image.load(f'textures/{fp}')
         except FileNotFoundError:
-            LOGGER.warning(f'Texture for <{name}> not found')
+            LOGGER.warning('Could not find ', fp)
             image = pyglet.image.load(ERROR_IMG)
 
         # configure Texture as 2D
